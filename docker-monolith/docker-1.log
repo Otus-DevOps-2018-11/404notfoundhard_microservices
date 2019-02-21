@@ -1,0 +1,9 @@
+REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
+notfound/ubuntu-tmp-file   latest              b45fc18d20bd        10 seconds ago      117MB
+ubuntu                     16.04               7e87e2b3bf7a        4 weeks ago         117MB
+hello-world                latest              fce289e99eb9        7 weeks ago         1.84kB
+
+У image нету виртуальной файловой системы /proc/, информации о системе /sys/, сетевых настроек,
+в общем всех тех настроек, которые задаются при инициализации контейнера. Из этого следует, 
+что image выступает в качестве заготовки для дальнейшего запуска инстанса контейнера, 
+где каждый запуск конейнера(run) отдельная сущность.
