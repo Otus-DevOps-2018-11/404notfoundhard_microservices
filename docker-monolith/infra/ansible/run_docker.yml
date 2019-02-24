@@ -1,0 +1,11 @@
+---
+- hosts: app
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Run reddit container
+    docker_container:
+      name: reddit
+      image: insecuritystone/otus-reddit:1.0
+      ports:
+        - "9292:9292"

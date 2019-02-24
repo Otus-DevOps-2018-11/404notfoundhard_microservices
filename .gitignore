@@ -1,0 +1,6 @@
+.pre-commit-config.yaml
+.terraform
+*.tfstate.backup
+*.tfstate
+*.tfstate.lock.info
+.vscode
