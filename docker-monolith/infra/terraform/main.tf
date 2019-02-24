@@ -37,4 +37,3 @@ resource "google_compute_firewall" "firewall_reddit" {
   source_ranges = "${var.source_ranges}"
   target_tags = ["reddit-app"]
 }
-

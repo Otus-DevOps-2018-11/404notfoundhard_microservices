@@ -1,5 +1,5 @@
 .pre-commit-config.yaml
 .terraform
-.tfstate.backup
-.tfstate
+*.tfstate.backup
+*.tfstate
 
