@@ -19,3 +19,9 @@ docker run -d --network=reddit -p 9292:9292 --env POST_SERVICE_HOST=post_host --
 /home/notfound/1OTUS/404notfoundhard_microservices/src/ui/Dockerfile - второй вариант 225MB
 ```
 
+## HW-15
+Q1: Узнайте как образуется базовое имя проекта.\
+A1: Базовое имя образовывается от директории в котором находится файл docker-compose.yml
+
+Q2: Можноли его задать? Если можно то как?\
+A2: Можно, с помощью ключа "-p" или с помощью переменной окружения "COMPOSE_PROJECT_NAME"

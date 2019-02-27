@@ -4,3 +4,4 @@
 *.tfstate
 *.tfstate.lock.info
 .vscode
+.env
