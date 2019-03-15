@@ -8,14 +8,14 @@ stages:
 
 variables:
   DATABASE_URL: 'mongodb:///mongo/user_posts'
-
+  LATEST_VERSION: 'myreg:5000/redditapp:latest'
 before_script:
-  - cd reddit
-  - bundle install
+
 build_job:
   stage: build
   script:
-    - echo 'Building'
+      - docker build -t $LATEST_VERSION .
+      - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
 test_unit_job:
   stage: test
@@ -29,13 +29,13 @@ test_integration_job:
   script:
     - echo 'Testing 2'
 
-branch review:
+deploy_dev_job:
   stage: review
   script:
     - echo 'Deploy review'
   environment:
-    name: branch/$CI_COMMIT_REF_NAME
-    url: http://$CI_ENVIRONMENT_SLUG.example.com
+    name: dev
+    url: http://dev.example.com
 
 staging:
   stage: stage
