@@ -10,7 +10,7 @@ variables:
   DATABASE_URL: 'mongodb:///mongo/user_posts'
   LATEST_VERSION: 'myreg:5000/redditapp:latest'
 before_script:
-
+  - cd reddit
 build_job:
   stage: build
   script:
