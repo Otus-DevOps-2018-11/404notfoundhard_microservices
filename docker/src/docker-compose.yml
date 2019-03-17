@@ -61,10 +61,17 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+
   mongodb_exporter:
     image: ${DOCKER_USER}/mongoexporter:latest
     networks:
       - back_net
+
+  blackbox_exporter:
+    image: ${DOCKER_USER}/blackbox_export:latest
+    networks:
+      - back_net
+      - front_net
 
 volumes:
   post_db:
