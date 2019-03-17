@@ -1,0 +1,88 @@
+version: '3.6'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+      # - log_net
+
+  ui:
+    # build: ./ui
+    image: ${DOCKER_USER}/ui:${UI_IMAGE_VERSION}
+    ports:
+      - ${HOST_LISTEN_PORT}:9292/tcp
+    networks:
+      - front_net
+      # - log_net
+
+  post:
+    # build: ./post-py
+    image: ${DOCKER_USER}/post:${POST_IMAGE_VERSION}
+    networks:
+      - back_net
+      - front_net
+      # - log_net
+
+  comment:
+    # build: ./comment
+    image: ${DOCKER_USER}/comment:${COMMENT_IMAGE_VERSION}
+    networks:
+      - back_net
+      - front_net
+      # - log_net
+
+  prometheus:
+    image: ${DOCKER_USER}/prometheus
+    networks:
+      # - log_net
+      - back_net
+      - front_net
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    networks:
+      - back_net
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+  mongodb_exporter:
+    image: ${DOCKER_USER}/mongoexporter:latest
+    networks:
+      - back_net
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  # log_net:
+  #   ipam:
+  #     driver: default
+  #     config:
+  #       - subnet: 10.200.200.0/24
+  back_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.2.0/24
+  front_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.1.0/24
