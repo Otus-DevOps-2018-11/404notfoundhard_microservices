@@ -14,6 +14,7 @@ before_script:
 build_job:
   stage: build
   script:
+      - docker info
       - docker build -t $LATEST_VERSION .
       - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
