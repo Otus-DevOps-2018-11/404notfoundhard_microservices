@@ -1,10 +1,6 @@
-FROM        quay.io/prometheus/busybox:latest
-MAINTAINER  The Prometheus Authors <prometheus-developers@googlegroups.com>
-
-COPY blackbox_exporter  /bin/blackbox_exporter
-COPY config.yml         /etc/blackbox_exporter/config.yml
-RUN chmod 755 /bin/blackbox_exporter 
-
-EXPOSE      9115
-ENTRYPOINT  [ "/bin/blackbox_exporter" ]
-CMD         [ "--config.file=/etc/blackbox_exporter/config.yml" ]
+FROM alpine:latest
+ADD blackbox_exporter /blackbox_exporter
+ADD config.yml /etc/blackbox_exporter/config.yml
+run apk add --no-cache libc6-compat
+EXPOSE 9115
+CMD ["/blackbox_exporter","--config.file=/etc/blackbox_exporter/config.yml"]

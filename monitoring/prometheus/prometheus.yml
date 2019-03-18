@@ -29,16 +29,16 @@ scrape_configs:
         - 'mongodb_exporter:9001'
 
   - job_name: 'blackbox_exporter'
-    metrics_path: /healthcheck
+    metrics_path: /probe
     params:
       module:
         - http_2xx_example
         - icmp
     static_configs:
       - targets:
-        - ui:9292
-        - post:5000
-        - comment:9292
+        - http://ui:9292/healthcheck
+        - http://post:5000/healthcheck
+        - http://comment:9292/healthcheck
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
