@@ -1,0 +1,25 @@
+{
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "{{ user `project_id` }}",
+            "image_name": "docker-host-{{timestamp}}",
+            "machine_type": "{{ user `machine_type` }}",
+            "source_image_family": "{{ user `source_image_family` }}",
+            "image_family": "docker-host",
+            "zone": "europe-west1-b",
+            "ssh_username": "{{user `ssh_username`}}",
+            "image_description": "Ubuntu 16.04 for Docker. Created on {{timestamp}}",
+            "disk_type":"pd-standard",
+            "disk_size":12,
+            "tags":"docker-host",
+            "network":"default"
+        }
+    ],
+    "provisioners": [
+    	{
+    		"type":"ansible",
+            "playbook_file": "./ansible/packer_docker.yml"
+    	}
+    ]
+}

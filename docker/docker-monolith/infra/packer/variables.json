@@ -1,0 +1,6 @@
+{
+    "project_id": "docker-201811-232414",
+    "machine_type": "n1-standard-1",
+    "source_image_family": "ubuntu-1604-lts",
+    "ssh_username": "appuser"
+}
