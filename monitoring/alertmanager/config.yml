@@ -1,6 +1,6 @@
 ---
 global:
-  slack_api_url: 'https://hooks.slack.com/services/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'
+  slack_api_url: 'https://hooks.slack.com/services/token/token/token'
   # global
   smtp_from: 'from_user@example.com'
   smtp_smarthost: 'smtp.example.com:587'
