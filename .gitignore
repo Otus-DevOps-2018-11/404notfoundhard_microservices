@@ -5,4 +5,4 @@
 *.tfstate.lock.info
 .vscode
 .env
-monitoring/alertmanager/config.yml
+/monitoring/alertmanager/config.yml
