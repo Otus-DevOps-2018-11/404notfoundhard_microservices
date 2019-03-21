@@ -19,6 +19,7 @@ services:
     ports:
       - 9093:9093
     command:
+      - '--log.level=debug'
       - '--config.file=/etc/alertmanager/config.yml'
     networks:
       - back_net
