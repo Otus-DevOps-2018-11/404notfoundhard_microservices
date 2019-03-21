@@ -1,0 +1,15 @@
+---
+global:
+  slack_api_url: 'https://hooks.slack.com/services/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'
+  smtp_from: 'alertmanager@example.com'
+  smtp_smarthost: 'smtp.example.org:587'
+  smtp_auth_username: 'username'
+  smtp_auth_password: 'password'
+
+route:
+  receiver: 'slack-notification'
+  to: ''
+receivers:
+- name: 'slack-notification'
+  slack_configs:
+  - channel: '#stanislav_linnik'

@@ -1,0 +1,108 @@
+version: '3.6'
+services:
+  prometheus:
+    image: ${DOCKER_USER}/prometheus
+    networks:
+      - back_net
+      - front_net
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+
+  alertmanager:
+    image: ${DOCKER_USER}/alertmanager
+    ports:
+      - 9093:9093
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+    networks:
+      - back_net
+
+  cadvisor:
+    image: google/cadvisor:v0.29.0
+    networks:
+      - back_net
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+    ports:
+      - '8080:8080'
+
+  grafana:
+    image: grafana/grafana:5.0.0
+    volumes:
+    - grafana_data:/var/lib/grafana
+    environment:
+    - GF_SECURITY_ADMIN_USER=admin
+    - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+    - back_net
+    depends_on:
+    - prometheus
+    ports:
+    - 3000:3000
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    networks:
+      - back_net
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+
+  mongodb_exporter:
+    image: ${DOCKER_USER}/mongoexporter:latest
+    networks:
+      - back_net
+
+  telegraf:
+    image: ${DOCKER_USER}/telegraf:latest
+    networks:
+      - back_net
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+
+  blackbox_exporter:
+    image: ${DOCKER_USER}/blackbox_exporter:latest
+    depends_on:
+      - prometheus
+    networks:
+      - back_net
+      - front_net
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  # log_net:
+  #   ipam:
+  #     driver: default
+  #     config:
+  #       - subnet: 10.200.200.0/24
+  back_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.2.0/24
+  front_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.1.0/24
