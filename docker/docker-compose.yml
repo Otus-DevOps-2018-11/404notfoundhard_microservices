@@ -9,12 +9,16 @@ services:
         aliases:
         - post_db
         - comment_db
+    environment:
+    - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
   ui:
     # build: ./ui
     image: ${DOCKER_USER}/ui:${UI_IMAGE_VERSION}
     ports:
       - ${HOST_LISTEN_PORT}:9292/tcp
+    environment:
+    - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       - front_net
     logging:
@@ -23,12 +27,14 @@ services:
         fluentd-address: localhost:24224
         tag: service.ui
 
+
   post:
     # build: ./post-py
     image: ${DOCKER_USER}/post:${POST_IMAGE_VERSION}
     environment:
       - POST_DATABASE_HOST=post_db
       - POST_DATABASE=posts
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - "5000:5000"
     networks:
@@ -47,6 +53,8 @@ services:
   comment:
     # build: ./comment
     image: ${DOCKER_USER}/comment:${COMMENT_IMAGE_VERSION}
+    environment:
+    - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     networks:
       back_net:
         aliases:
