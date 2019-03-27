@@ -5,3 +5,6 @@
 *.tfstate.lock.info
 .vscode
 .env
+*.pem
+*.csr
+
