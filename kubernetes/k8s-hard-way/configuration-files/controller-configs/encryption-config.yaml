@@ -1,0 +1,11 @@
+kind: EncryptionConfig
+apiVersion: v1
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: DZ8nAE1fgoxf0BAaTmaxiZ4Bu07BELUqkiGJepB8k0w=
+      - identity: {}
