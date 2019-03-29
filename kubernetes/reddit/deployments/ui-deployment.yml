@@ -5,7 +5,7 @@ metadata:
   name: ui
   labels:
     app: reddit
-    name: ui
+    component: ui
 spec:
   replicas: 3
   selector:
@@ -22,3 +22,6 @@ spec:
       containers:
       - image: insecuritystone/ui:latest
         name: ui
+        env:
+        - name: ENV
+          value: dev 404notfound_microservices
