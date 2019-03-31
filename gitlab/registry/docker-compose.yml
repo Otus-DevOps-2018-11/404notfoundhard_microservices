@@ -1,0 +1,15 @@
+version: '3.6'
+services:
+  registry:
+    image: registry:2
+    volumes:
+      - /srv/registry/data:/var/lib/registry
+      - /srv/registry/auth:/auth
+      - /srv/certs:/certs
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-chain.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: my local registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd

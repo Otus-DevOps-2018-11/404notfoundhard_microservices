@@ -25,3 +25,15 @@ A1: Базовое имя образовывается от директории
 
 Q2: Можноли его задать? Если можно то как?\
 A2: Можно, с помощью ключа "-p" или с помощью переменной окружения "COMPOSE_PROJECT_NAME"
+
+## HW-16 
+### Create docker registry:
+```
+# add simple htpasswd authorization:
+docker run --rm --entrypoint htpasswd registry:2 -Bbn user pass > htpasswd
+keys:
+-B - Force bcrypt encryption of the password(very secure)
+-b - use password from cmd
+-n - use stdout
+```
+[create own docker registry with docker-compose](gitlab/registry/docker-compose.yml)
