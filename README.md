@@ -36,4 +36,4 @@ keys:
 -b - use password from cmd
 -n - use stdout
 ```
-[create own docker registry with docker-compose](gitlab/registry/docker-compose.yml)
+[create own docker registry with gitlab](gitlab/docker-compose.yml)

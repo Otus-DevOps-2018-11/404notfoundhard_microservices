@@ -15,13 +15,21 @@ services:
       - '/srv/gitlab/config:/etc/gitlab'
       - '/srv/gitlab/logs:/var/log/gitlab'
       - '/srv/gitlab/data:/var/opt/gitlab'
+      - '/srv/certs:/etc/gitlab/ssl/'
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    restart: always
+    volumes:
+      - '/srv/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
 
   myregistry:
     image: registry:2
     volumes:
-      - /srv/registry/data:/var/lib/registry
-      - /srv/registry/auth:/auth
-      - /srv/certs:/certs
+      - '/srv/registry/data:/var/lib/registry'
+      - '/srv/registry/auth:/auth'
+      - '/srv/certs:/certs'
     environment:
       REGISTRY_HTTP_ADDR: 0.0.0.0:5000
       REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-chain.crt
