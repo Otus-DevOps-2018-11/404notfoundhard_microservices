@@ -12,13 +12,14 @@ services:
 variables:
   # DATABASE_URL: 'mongodb:///mongo/user_posts'
   DOCKER_DRIVER: overlay2
-  LATEST_VERSION: 'myreg:5000/redditapp:latest'
+  LATEST_VERSION: 'redditapp:latest'
 before_script:
   - cd reddit
-  - docker info
+  # - docker info
 build_job:
   stage: build
   script:
+      - echo $LATEST_VERSION
       - docker build -t $LATEST_VERSION .
       - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
