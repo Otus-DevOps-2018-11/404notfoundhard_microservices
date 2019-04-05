@@ -18,10 +18,12 @@ before_script:
 # - docker info
 build_job:
   stage: build
+  image: docker:stable
   script:
-      - echo $LATEST_VERSION
-      - docker build -t $LATEST_VERSION .
-      - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
+      - docker info
+      # - echo $LATEST_VERSION
+      # - docker build -t $LATEST_VERSION .
+      # - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
 test_unit_job:
   stage: test
