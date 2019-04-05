@@ -11,6 +11,10 @@ services:
       - '80:80'
       - '443:443'
       - '2222:22'
+    networks:
+      default:
+        aliases:
+          - mygitlab.com
     volumes:
       - '/srv/gitlab/config:/etc/gitlab'
       - '/srv/gitlab/logs:/var/log/gitlab'
@@ -18,14 +22,18 @@ services:
       - '/srv/certs:/etc/gitlab/ssl/'
 
   gitlab-runner:
-    image: gitlab/gitlab-runner
+    image: insecuritystone/gitlab-runner
     restart: always
+    # environment:
+      # - DEBUG=true
     volumes:
+      - '/srv/certs/rootCA.crt:/etc/gitlab-runner/certs/mygitlab.com.crt:ro'
       - '/srv/gitlab-runner/config:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
 
   myregistry:
     image: registry:2
+    restart: always
     volumes:
       - '/srv/registry/data:/var/lib/registry'
       - '/srv/registry/auth:/auth'

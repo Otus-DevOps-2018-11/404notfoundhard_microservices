@@ -1,4 +1,4 @@
-image: ruby:2.4.2
+image: ruby:2.4
 stages:
   - build
   - test
@@ -7,14 +7,14 @@ stages:
   - production
 
 variables:
-  DATABASE_URL: 'mongodb:///mongo/user_posts'
+  # DATABASE_URL: 'mongodb:///mongo/user_posts'
   LATEST_VERSION: 'myreg:5000/redditapp:latest'
 before_script:
   - cd reddit
+  - docker info
 build_job:
   stage: build
   script:
-      - docker info
       - docker build -t $LATEST_VERSION .
       - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
