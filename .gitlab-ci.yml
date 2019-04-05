@@ -6,6 +6,9 @@ stages:
   - stage
   - production
 
+services:
+  - docker:dind
+
 variables:
   # DATABASE_URL: 'mongodb:///mongo/user_posts'
   LATEST_VERSION: 'myreg:5000/redditapp:latest'
