@@ -11,6 +11,7 @@ services:
 
 variables:
   # DATABASE_URL: 'mongodb:///mongo/user_posts'
+  DOCKER_DRIVER: overlay2
   LATEST_VERSION: 'myreg:5000/redditapp:latest'
 before_script:
   - cd reddit
