@@ -10,9 +10,12 @@ services:
   - docker:dind
 
 variables:
-  # DATABASE_URL: 'mongodb:///mongo/user_posts'
+  DATABASE_URL: 'mongodb:///mongo/user_posts'
   DOCKER_DRIVER: overlay2
   LATEST_VERSION: 'redditapp:latest'
+  LOCAL_REGISTRY: 'myregistry:5000'
+  USER_REG: 'user'
+  PASS_REG: 'pass'
 before_script:
   - cd reddit
 # - docker info
@@ -21,17 +24,16 @@ build_job:
   image: docker:stable
   script:
       - docker info
-      # - echo $LATEST_VERSION
-      # - docker build -t $LATEST_VERSION .
-      # - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
+      - docker login $LOCAL_REGISTRY -u $USER_REG -p $PASS_REG
+      - docker build -t $LATEST_VERSION .
+      - docker push $LOCAL_REGISTRY/$LATEST_VERSION && docker image rm $LATEST_VERSION
 
 test_unit_job:
-  image: ruby:2.4
+  image: $LOCAL_REGISTRY/ruby:2.4
   stage: test
   services:
     - mongo:latest
   script:
-    - bundle install
     - ruby simpletest.rb
 
 test_integration_job:
