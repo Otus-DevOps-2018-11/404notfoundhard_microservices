@@ -13,7 +13,7 @@ variables:
   DATABASE_URL: 'mongodb:///mongo/user_posts'
   DOCKER_DRIVER: overlay2
   LATEST_VERSION: 'redditapp:latest'
-  LOCAL_REGISTRY: 'myregistry:5000'
+  LOCAL_REGISTRY: '35.210.68.182:5000'
   USER_REG: 'user'
   PASS_REG: 'pass'
 before_script:
