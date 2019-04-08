@@ -24,8 +24,17 @@ services:
   runner:
     image: insecuritystone/gitlab-runner
     restart: always
-    # environment:
-      # - DEBUG=true
+    environment:
+      - DEBUG=true
+      - CI_SERVER_URI='https://mygitlab.com/'
+      - REGISTRATION_TOKEN='A5KwCDAsTdiPzUknVnA1'
+      - REGISTER_LOCKED='false'
+      - REGISTER_RUN_UNTAGGED='true'
+      - RUNNER_EXECUTOR='docker'
+      - DOCKER_EXTRA_HOSTS='["mygitlab.com:35.210.68.182"]'
+      - DOCKER_PRIVILEGED=true
+      - DOCKER_IMAGE='alpine:latest'
+      - RUNNER_REQUEST_CONCURRENCY='5'
     volumes:
       - '/srv/certs/rootCA.crt:/etc/gitlab-runner/certs/mygitlab.com.crt:ro'
       - '/srv/gitlab-runner/config:/etc/gitlab-runner'

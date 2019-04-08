@@ -37,3 +37,7 @@ keys:
 -n - use stdout
 ```
 [create own docker registry with gitlab-runner and gitlab](gitlab/docker-compose.yml)
+
+### slack notification:
+https://devops-team-otus.slack.com/messages/CEZPYR6PJ/apps/B7Z08QMLK/
+
