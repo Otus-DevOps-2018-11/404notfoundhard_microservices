@@ -21,7 +21,7 @@ services:
       - '/srv/gitlab/data:/var/opt/gitlab'
       - '/srv/certs:/etc/gitlab/ssl/'
 
-  gitlab-runner:
+  runner:
     image: insecuritystone/gitlab-runner
     restart: always
     # environment:
@@ -31,19 +31,19 @@ services:
       - '/srv/gitlab-runner/config:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
 
-  myregistry:
-    image: registry:2
-    restart: always
-    ports:
-      - '5000:5000'
-    volumes:
-      - '/srv/registry/data:/var/lib/registry'
-      - '/srv/registry/auth:/auth'
-      - '/srv/certs:/certs'
-    environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:5000
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-chain.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/registry.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: registry
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+  # myregistry:
+  #   image: registry:2
+  #   restart: always
+  #   ports:
+  #     - '5000:5000'
+  #   volumes:
+  #     - '/srv/registry/data:/var/lib/registry'
+  #     - '/srv/registry/auth:/auth'
+  #     - '/srv/certs:/certs'
+  #   environment:
+  #     REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+  #     REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-chain.crt
+  #     REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+  #     REGISTRY_AUTH: htpasswd
+  #     REGISTRY_AUTH_HTPASSWD_REALM: registry
+  #     REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
