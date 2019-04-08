@@ -38,6 +38,7 @@ test_unit_job:
   services:
     - mongo:latest
   script:
+    - ls
     - ruby simpletest.rb
 
 test_integration_job:
