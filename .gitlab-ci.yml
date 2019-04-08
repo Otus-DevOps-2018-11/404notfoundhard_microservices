@@ -33,12 +33,13 @@ build_job:
       - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
 test_unit_job:
-  image: $LATEST_VERSION
+  # image: $LATEST_VERSION
+  image: ruby:2.4
   stage: test
   services:
-    - mongo:latest
+    - mongo
   script:
-    - ls
+    - bundle install
     - ruby simpletest.rb
 
 test_integration_job:
