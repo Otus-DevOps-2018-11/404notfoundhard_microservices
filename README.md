@@ -41,6 +41,7 @@ keys:
 ### slack notification:
 https://devops-team-otus.slack.com/messages/CEZPYR6PJ/apps/B7Z08QMLK/
 
+
 ## HW-17
 Q1: В Docker в экспериментальном режиме реализована отдача метрик в  
 формате Prometheus. Добавьте сбор этих метрик в Prometheus. Сравните  
@@ -59,4 +60,3 @@ monitoring/grafana/dashboards/Docker Engine Metrics.json
 A2: Telegraf классная штука, очень много настроек, подключил сбор метрик с mongodb, показал гораздно больше чем mongodb_exporter. Метрик по докер контейнерам на любой вкус и цвет, очень много, !возможно даже избыточно!  
 В конфиге можно организовать сбор метрик с разных СУБД, IaaS(GCE,AWS,Azure) как принимать метрики так и передовать в IaaS и еще куча всего.  
 monitoring/grafana/dashboards/Docker telegraf-1553112054885_custom.json
-
