@@ -1,0 +1,58 @@
+version: '3.6'
+services:
+  mygitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'mygitlab.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://mygitlab.com'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    networks:
+      default:
+        aliases:
+          - mygitlab.com
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+      - '/srv/certs:/etc/gitlab/ssl/'
+
+  runner:
+    image: insecuritystone/gitlab-runner
+    restart: always
+    environment:
+      - DEBUG=true
+      - CI_SERVER_URI='https://mygitlab.com/'
+      - REGISTRATION_TOKEN='A5KwCDAsTdiPzUknVnA1'
+      - REGISTER_LOCKED='false'
+      - REGISTER_RUN_UNTAGGED='true'
+      - RUNNER_EXECUTOR='docker'
+      - DOCKER_EXTRA_HOSTS='["mygitlab.com:35.210.68.182"]'
+      - DOCKER_PRIVILEGED=true
+      - DOCKER_IMAGE='alpine:latest'
+      - RUNNER_REQUEST_CONCURRENCY='5'
+    volumes:
+      - '/srv/certs/rootCA.crt:/etc/gitlab-runner/certs/mygitlab.com.crt:ro'
+      - '/srv/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  # myregistry:
+  #   image: registry:2
+  #   restart: always
+  #   ports:
+  #     - '5000:5000'
+  #   volumes:
+  #     - '/srv/registry/data:/var/lib/registry'
+  #     - '/srv/registry/auth:/auth'
+  #     - '/srv/certs:/certs'
+  #   environment:
+  #     REGISTRY_HTTP_ADDR: 0.0.0.0:5000
+  #     REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry-chain.crt
+  #     REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+  #     REGISTRY_AUTH: htpasswd
+  #     REGISTRY_AUTH_HTPASSWD_REALM: registry
+  #     REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd

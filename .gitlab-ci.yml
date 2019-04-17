@@ -1,4 +1,4 @@
-image: ruby:2.4.2
+image: ruby:2.4
 stages:
   - build
   - test
@@ -6,23 +6,40 @@ stages:
   - stage
   - production
 
+services:
+  - docker:dind
+
 variables:
   DATABASE_URL: 'mongodb:///mongo/user_posts'
-  LATEST_VERSION: 'myreg:5000/redditapp:latest'
+  DOCKER_DRIVER: overlay2
+  LATEST_VERSION: 'insecuritystone/redditapp:latest'
+  # LOCAL_REGISTRY: '35.210.68.182:5000'
+  # USER_REG: 'user'
+  # PASS_REG: 'pass'
+  DOCKER_USER: 'insecuritystone'
 before_script:
   - cd reddit
+# - docker info
 build_job:
   stage: build
+  image: docker:stable
+  ### need use $CI_SERVER_TLS_CA_FILE
+  ### also re-create certificates for local registry
   script:
       - docker info
+      - docker login -u $DOCKER_USER -p $DOCKER_SECRET
       - docker build -t $LATEST_VERSION .
+      # - docker push $LOCAL_REGISTRY/$LATEST_VERSION && docker image rm $LATEST_VERSION
       - docker push $LATEST_VERSION && docker image rm $LATEST_VERSION
 
 test_unit_job:
+  # image: $LATEST_VERSION
+  image: ruby:2.4
   stage: test
   services:
-    - mongo:latest
+    - mongo
   script:
+    - bundle install
     - ruby simpletest.rb
 
 test_integration_job:
