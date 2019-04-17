@@ -42,7 +42,6 @@ keys:
 https://devops-team-otus.slack.com/messages/CEZPYR6PJ/apps/B7Z08QMLK/
 
 
-
 ## HW-17
 Q1: В Docker в экспериментальном режиме реализована отдача метрик в  
 формате Prometheus. Добавьте сбор этих метрик в Prometheus. Сравните  

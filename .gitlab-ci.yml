@@ -1,4 +1,4 @@
-image: ruby:2.4
+image: ruby:2.4.2
 stages:
   - build
   - test
@@ -23,8 +23,8 @@ before_script:
 build_job:
   stage: build
   image: docker:stable
-  ### need use $CI_SERVER_TLS_CA_FILE
-  ### also re-create certificates for local registry
+  ### TODO: need use $CI_SERVER_TLS_CA_FILE
+  ### TODO: also re-create certificates for local registry
   script:
       - docker info
       - docker login -u $DOCKER_USER -p $DOCKER_SECRET
@@ -37,7 +37,7 @@ test_unit_job:
   image: ruby:2.4
   stage: test
   services:
-    - mongo
+    - mongo:latest
   script:
     - bundle install
     - ruby simpletest.rb
