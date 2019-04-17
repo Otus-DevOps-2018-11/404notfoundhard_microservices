@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Install python
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    changed_when: False
+
+  - name: Install docker
+    apt:
+      update_cache: yes
+      name: "{{ packages }}"
+    vars:
+      packages:
+        - docker
+        - docker-compose

@@ -6,4 +6,5 @@
 .vscode
 .env
 *.key
-
+*.pem
+*.csr
